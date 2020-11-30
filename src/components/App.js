@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import socket from '../socket';
 import Header from './Header';
+import AutomaticMessages from './AutomaticMessages';
 import MessageList from './MessageList';
 import MessageForm from './MessageForm';
 import NicknameForm from './NicknameForm';
@@ -82,8 +83,10 @@ function App() {
     };
   }, [messages, user, activeUsers]);
 
-  const handleSendMessage = message => {
-    const newMessage = { id: uuidv4(), body: message, date: new Date(), type: 'warning', user };
+  const handleSendMessage = (message, type) => {
+    console.log('handleSendMessage')
+    console.log(type)
+    const newMessage = { id: uuidv4(), body: message, date: new Date(), type: type, user };
     setMessages([...messages, newMessage]);
     socket.emit('message', newMessage);
   };
@@ -110,6 +113,7 @@ function App() {
         mainText="Notificador de mensajes"
         secondaryText={`${activeUsers} ${activeUsers !== 1 ? 'usuarios' : 'usuario'}`}
       />
+      <AutomaticMessages sendMessage={handleSendMessage} />
       <MessageList messages={messages} currentUser={user} />
       <MessageForm sendMessage={handleSendMessage} />
     </Paper>

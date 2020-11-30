@@ -23,7 +23,7 @@ const MessageForm = ({ sendMessage }) => {
   const handleSubmit = event => {
     event.preventDefault();
     if (message) {
-      sendMessage(message);
+      sendMessage(message, 'info');
       setMessage('');
     }
   };

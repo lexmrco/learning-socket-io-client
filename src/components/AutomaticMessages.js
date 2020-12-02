@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { getMessage } from '../services/messages';
-import { Button } from '@material-ui/core';
+import { Button, Box, TextField, Grid, Typography } from '@material-ui/core';
 
 
 const AutomaticMessages = ({ sendMessage }) => {
 
   const[switchAutomatic, setSwitchAutomatic] = useState(false) ;
   const[message, setMessage] = useState(() => getMessage()) ;
+  const[miliSeconds, setMiliSeconds] = useState(15000) ;
 
   const mapMessage = () => {
     const autMessage = getMessage();
@@ -21,10 +22,14 @@ const AutomaticMessages = ({ sendMessage }) => {
       if(switchAutomatic) {
         mapMessage();
       }
-    }, 15000);
+    }, miliSeconds);
     return () => clearInterval(interval);
   }, [message])
   
+  const handleInputChange = event => {
+    setMiliSeconds(event.target.value);
+  };
+
   const handleOnclickAutomatic = event => {
     setSwitchAutomatic(false === switchAutomatic);
     if(false === switchAutomatic) {
@@ -32,9 +37,28 @@ const AutomaticMessages = ({ sendMessage }) => {
     }
   };
   return (
-    <Button variant="contained" color={switchAutomatic ? 'secondary':'primary'} onClick={handleOnclickAutomatic}>
-     {switchAutomatic ? 'Detener proceso automático':'Ejecutar proceso automático'}
-    </Button>
+    <Box component="span" m={1}>
+      <Typography variant="body1" gutterBottom>Ingrese el intervalo en milisegundos para ejecutar el proceso automático que genera mensajes aleatorios</Typography>
+      <Grid container>
+        <Grid item xs={6}>
+          <TextField
+              id="standard-number"
+              label="Milisegundos"
+              type="number"
+              value={miliSeconds}
+              onChange={handleInputChange}
+            />
+        </Grid>
+        <Grid item xs={6}>
+          <Button
+            variant="contained"
+            color={switchAutomatic ? 'secondary':'primary'}
+            onClick={handleOnclickAutomatic}>
+            {switchAutomatic ? 'Detener proceso automático':'Ejecutar proceso automático'}
+          </Button>
+        </Grid>
+      </Grid>
+    </Box>
   );
 };
 

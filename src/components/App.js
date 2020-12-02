@@ -16,14 +16,15 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     width: '400px',
-    height: '600px'
+    height: '600px',
+    padding: '10px'
   },
   login: {
-    display: 'flex',
     width: '400px',
     height: '600px',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    padding: '10px'
   }
 }));
 
@@ -102,6 +103,9 @@ function App() {
   if (!user.id) {
     return (
       <Paper className={classes.login}>
+        <Header
+          mainText="Inicio de sesión"
+      />
         <NicknameForm className={classes.login} sendNickname={handleSetNickname} />
       </Paper>
     );
@@ -113,9 +117,9 @@ function App() {
         mainText="Notificador de mensajes"
         secondaryText={`${activeUsers} ${activeUsers !== 1 ? 'usuarios' : 'usuario'}`}
       />
-      <AutomaticMessages sendMessage={handleSendMessage} />
       <MessageList messages={messages} currentUser={user} />
       <MessageForm sendMessage={handleSendMessage} />
+      <AutomaticMessages sendMessage={handleSendMessage} />
     </Paper>
   );
 }
